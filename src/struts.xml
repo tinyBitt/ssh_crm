@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="first" extends="struts-default" namespace="/">
+		<!-- 用户action -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="success">/index.jsp</result>
+			<result name="fail">/login.jsp</result>
+		</action>
+		
+		<!-- 客户action -->
+		<action name="customer_*" class="customerAction" method="{1}">
+			<result name="toAddPage">/jsp/customer/add.jsp</result>
+			<result name="list" type="redirectAction">customer_list</result>
+			<result name="toListPage">/jsp/customer/list.jsp</result>
+			<result name="toListPage2">/jsp/customer/list2.jsp</result>
+			<result name="toEditPage">/jsp/customer/edit.jsp</result>
+			<result name="toMultiSelPage">/jsp/multiSel/multiSelCust.jsp</result>
+			<result name="levelCount">/jsp/statistics/list.jsp</result>
+		</action>
+		
+		<!-- 联系人action -->
+		<action name="linkMan_*" class="linkManAction" method="{1}">
+			<result name="toAddPage">/jsp/linkman/add.jsp</result>
+			<result name="toEditPage">/jsp/linkman/edit.jsp</result>
+			<result name="list" type="redirectAction">linkMan_list</result>
+			<result name="toListPage">/jsp/linkman/list.jsp</result>
+		</action>
+		
+		<!-- 拜访记录 -->
+		<action name="visit_*" class="visitAction" method="{1}">
+			<result name="toAddPage">/jsp/visit/add.jsp</result>
+			<result name="toListPage">/jsp/visit/list.jsp</result>
+			<result name="list" type="redirectAction">visit_list</result>
+		</action>
+	</package>	
+</struts>

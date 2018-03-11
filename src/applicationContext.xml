@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 开启注解扫描 -->
+	<context:component-scan base-package="cn.baoxin"></context:component-scan>
+	
+	<!-- 配置c3p0连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="jdbcUrl" value="jdbc:mysql:///ssh"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="123"></property>
+	</bean>
+	<!-- 配置sessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocations" value="classpath:hibernate.cfg.xml"></property>
+	</bean>
+	<!-- 配置事务 -->
+	<!-- 1、配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> 
+	<!-- 开启事务注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- 配置action -->
+	<!-- 用户action -->
+	<bean id="userAction" class="cn.baoxin.action.UserAction" scope="prototype">
+		<property name="userService" ref="userService"></property>
+	</bean> 
+	<!-- 客户action -->
+	<bean id="customerAction" class="cn.baoxin.action.CustomerAction" scope="prototype">
+		<property name="customerService" ref="customerService"></property>
+	</bean> 
+	<!-- 联系人action -->
+	<bean id="linkManAction" class="cn.baoxin.action.LinkManAction" scope="prototype">
+		<property name="linkManService" ref="linkManService"></property>
+	</bean> 
+	<!-- 拜访记录action -->
+	<bean id="visitAction" class="cn.baoxin.action.VisitAction" scope="prototype">
+		<property name="visitService" ref="visitService"></property>
+	</bean> 
+	
+	<!-- 配置service -->
+	<!-- 用户service -->
+	<bean id="userService" class="cn.baoxin.service.UserService">
+		<property name="userDao" ref="userDaoImpl"></property>
+	</bean>
+	<!-- 客户service -->
+	<bean id="customerService" class="cn.baoxin.service.CustomerService">
+		<property name="customerDao" ref="customerDaoImpl"></property>
+	</bean>
+	<!-- 联系人service -->
+	<bean id="linkManService" class="cn.baoxin.service.LinkManService">
+		<property name="linkManDao" ref="linkManDaoImpl"></property>
+	</bean>
+	<!-- 拜访记录service -->
+	<bean id="visitService" class="cn.baoxin.service.VisitService">
+		<property name="visitDao" ref="visitDaoImpl"></property>
+	</bean>
+
+	<!-- 配置dao -->
+	<!-- 用户dao -->
+	<bean id="userDaoImpl" class="cn.baoxin.dao.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 客户dao -->
+	<bean id="customerDaoImpl" class="cn.baoxin.dao.CustomerDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 联系人dao -->
+	<bean id="linkManDaoImpl" class="cn.baoxin.dao.LinkManDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 拜访记录dao -->
+	<bean id="visitDaoImpl" class="cn.baoxin.dao.VisitDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+</beans>
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.baoxin.entity.Customer" table="t_customer">
+		<id name="custId" column="custId"> 
+			<generator class="native"></generator>
+		</id>	
+		<property name="custName"></property>
+		<property name="custSource"></property>
+		<property name="custPhone"></property>
+		
+		<!-- 配置联系人关联 -->
+		<set name="linkManSet" inverse="true" cascade="delete">
+			<key column="custId"></key>
+			<one-to-many class="cn.baoxin.entity.LinkMan"/>
+		</set>
+		
+		<!-- 配置拜访关联 -->
+		<set name="visitSet" inverse="true" cascade="delete">
+			<key column="custId"></key>
+			<one-to-many class="cn.baoxin.entity.Visit"/>
+		</set>
+		
+		<!-- 配置字典关联 -->
+		<many-to-one name="custLevel" class="cn.baoxin.entity.Dictionary" column="custLevel"></many-to-one>
+	</class>
+</hibernate-mapping>
